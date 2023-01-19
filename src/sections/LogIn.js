@@ -8,7 +8,7 @@ const LogIn = () => {
     <>
         <div className="login">
             {login? 
-            <form className="webflow-style-input">
+            <form className="login-input">
                 <input required name='task' type='text' placeholder="Email"/>
                 <input required name='task' type='text' placeholder="Password"/>
                 <input required name='task' type='text' placeholder="reenter password"/>
@@ -18,7 +18,7 @@ const LogIn = () => {
                 <h2>already have an account? <span onClick={() => setLogin(prev => !prev)}>Log In</span></h2>
             </form>
             :
-            <form className="webflow-style-input">
+            <form className="login-input">
                 <input required name='task' type='text' placeholder="Email"/>
                 <input required name='task' type='text' placeholder="Password"/>
                 <button type="submit">Log in</button>

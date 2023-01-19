@@ -9,7 +9,7 @@ body{
     padding: 30px;
 }
 
-.webflow-style-input {
+.login-input {
     border: 2px rgba(57, 63, 84, 0.8) solid;
     padding: 30px 15px;
     position: relative;
@@ -24,7 +24,7 @@ body{
     
 }
 
-.webflow-style-input button:after {
+.login-input button:after {
     content: "";
     position: absolute;
     left: 0px;
@@ -40,7 +40,7 @@ body{
     animation: gradient 3s linear infinite;
 }
 
-.webflow-style-input input {
+.login-input input {
     flex-grow: 1;
     color: #BFD2FF;
     display: block;
@@ -52,11 +52,11 @@ body{
     height: 55px;
     background: rgba(57, 63, 84, 0.8);
 }
-.webflow-style-input input::-webkit-input-placeholder {
+.login-input input::-webkit-input-placeholder {
     color: #7881A1;
 }
 
-.webflow-style-input button {
+.login-input button {
     /* color: #7881A1; */
     color: #BFD2FF;
     padding: 0 15px;
@@ -71,7 +71,7 @@ body{
     background: rgb(33, 35, 48);
 }
 
-.webflow-style-input button:hover {
+.login-input button:hover {
     background: rgba(57, 63, 84, 0.8);
 }
 
