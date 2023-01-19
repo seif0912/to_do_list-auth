@@ -1,0 +1,116 @@
+.todo {
+    position: relative;
+    display: flex;
+    font-size: 16px;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    /* padding:15px 25px; */
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto 10px;
+    border-radius: 2px;
+    /* padding: 1.4rem 2rem 1.6rem; */
+    background: rgba(57, 63, 84, 0.8);
+    transition: .3s;
+}
+
+.todo.done{
+    background: rgba(74, 78, 94, 0.8);
+    opacity: .5;
+    transition: .3s;
+}
+
+.todo.done:hover{
+    background: rgba(74, 78, 94, 0.8);
+    opacity: .8;
+}
+
+.todo.done::after{
+    background: #57E6E6;
+}
+
+.todo::after {
+    content: "";
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 999;
+    height: 1px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    background-position: 0% 0%;
+    background: linear-gradient(to right, #B294FF, #57E6E6 50%);
+    background-size: 500% auto;
+}
+
+.todo p{
+    max-width: 325px;
+    padding: 10px 20px;
+}
+
+.todo.done p{
+    text-decoration: line-through;
+}
+
+.controls{
+    display: flex;
+    margin-right: 10px;
+}
+
+.controls div{
+    width: 35px;
+    height: 35px;
+    /* border-radius: 50%; */
+    /* background-color: blue; */
+    transition: .3s;
+    position: relative;
+}
+
+.controls div:hover{
+    background-color: rgba(255, 255, 255, 0.075);
+    cursor: pointer;
+}
+
+.controls div svg{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    transition: .3s;
+}
+
+.controls .trash::after{
+    content: '';
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    background-color: transparent;
+}
+
+.controls .check::after{
+    content: '';
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    background-color: transparent;
+}
+
+.controls .trash:hover svg{
+    color: tomato;
+}
+
+.controls .check:hover svg{
+    color: #57E6E6;
+}
+
+.todo.done .controls .check svg{
+    color: #57E6E6;
+}
