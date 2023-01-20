@@ -1,30 +1,82 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 import './LogIn.css'
+import { useAuth } from '../contexts/AuthContext'
 
-const LogIn = () => {
+const LogIn = ({setIsLoggedIn, setUser}) => {
+    let [loginPage, setLoginPage] = useState(false);
+    let [loading, setLoading] = useState(false);
+    let [error, setError] = useState('')
+    let signupEmailRef = useRef();
+    let signupPasswordRef = useRef();
+    let signupPasswordConfirmationRef = useRef();
+    let loginEmailRef = useRef();
+    let loginPasswordRef = useRef();
 
-    let [login, setLogin] = useState(false);
+    const { signup, currentUser, login } = useAuth()
+
+    async function handleSignup(event){
+        event.preventDefault();
+        if(signupPasswordRef.current.value !== signupPasswordConfirmationRef.current.value){
+            return setError('passwords do not match')
+        }
+        try{
+            await signup(signupEmailRef.current.value, signupPasswordRef.current.value)
+            setError("")
+            setLoading(true)
+            setIsLoggedIn(true)
+            setUser(currentUser)
+
+        }catch(err){
+            console.log(err.code)
+            if(err.code === 'auth/email-already-in-use')
+                setError("email already in use")
+        }
+        setLoading(false)
+    }
+
+    async function handlelogin(event){
+        event.preventDefault()
+        try{
+            await login(loginEmailRef.current.value, loginPasswordRef.current.value)
+            setError("")
+            setLoading(true)
+            setIsLoggedIn(true)
+            setUser(currentUser)
+
+        }catch(err){
+            console.error(err)
+            if(err.code === 'auth/email-already-in-use')
+                setError("email already in use")
+            else
+                setError(err)
+        }
+        setLoading(false)
+    }
+    
   return (
     <>
         <div className="login">
-            {login? 
-            <form className="login-input">
-                <input required name='task' type='text' placeholder="Email"/>
-                <input required name='task' type='text' placeholder="Password"/>
-                <input required name='task' type='text' placeholder="reenter password"/>
-                <button type="submit">Sign In</button>
+            {loginPage? 
+            <form className="login-input" onSubmit={handleSignup}>
+                {error && 
+                    <h1>{error}</h1>
+                }
+                <input required name='task' type='text' ref={signupEmailRef} placeholder="Email"/>
+                <input required name='task' type='text' ref={signupPasswordRef} placeholder="Password"/>
+                <input required name='task' type='text' ref={signupPasswordConfirmationRef} placeholder="Password Confirmation"/>
+                <button disabled={loading} type="submit">Sign Up</button>
                 <h2>Or</h2>
-                <button type="submit">Sign in with Google</button>
-                <h2>already have an account? <span onClick={() => setLogin(prev => !prev)}>Log In</span></h2>
+                <button type="submit">Sign up with Google</button>
+                <h2>already have an account? <span onClick={() => setLoginPage(prev => !prev)}>Log In</span></h2>
             </form>
             :
-            <form className="login-input">
-                <input required name='task' type='text' placeholder="Email"/>
-                <input required name='task' type='text' placeholder="Password"/>
+            <form className="login-input" onSubmit={handlelogin}>
+                <input required name='task' type='text' ref={loginEmailRef} placeholder="Email"/>
+                <input required name='task' type='text' ref={loginPasswordRef} placeholder="Password"/>
                 <button type="submit">Log in</button>
                 <h2>Or</h2>
                 <button type="submit">Log in with Google</button>
-                <h2>don't have an account <span onClick={() => setLogin(prev => !prev)}>Sign In</span></h2>
+                <h2>don't have an account <span onClick={() => setLoginPage(prev => !prev)}>Sign In</span></h2>
             </form>
         }
             
