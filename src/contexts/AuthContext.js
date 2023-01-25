@@ -23,6 +23,10 @@ export function AuthProvider({ children }) {
         return signInWithEmailAndPassword(auth, email, password)
     }
 
+    function logout(){
+        return auth.signOut()
+    }
+
     useEffect(()=>{
         const unsubcsribe = onAuthStateChanged( auth, (user) => {
             console.log('user', user)
@@ -36,6 +40,7 @@ export function AuthProvider({ children }) {
         currentUser,
         signup,
         login,
+        logout
     }
     return (
         <AuthContext.Provider value={value}>
