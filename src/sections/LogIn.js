@@ -1,8 +1,9 @@
 import React, {useState, useRef} from 'react'
+import { useNavigate } from 'react-router-dom'
 import './LogIn.css'
 import { useAuth } from '../contexts/AuthContext'
 
-const LogIn = ({setIsLoggedIn, setUser}) => {
+const LogIn = () => {
     let [loginPage, setLoginPage] = useState(false);
     let [loading, setLoading] = useState(false);
     let [error, setError] = useState('')
@@ -11,6 +12,7 @@ const LogIn = ({setIsLoggedIn, setUser}) => {
     let signupPasswordConfirmationRef = useRef();
     let loginEmailRef = useRef();
     let loginPasswordRef = useRef();
+    let navigate = useNavigate()
 
     const { signup, currentUser, login } = useAuth()
 
@@ -20,12 +22,11 @@ const LogIn = ({setIsLoggedIn, setUser}) => {
             return setError('passwords do not match')
         }
         try{
-            await signup(signupEmailRef.current.value, signupPasswordRef.current.value)
             setError("")
             setLoading(true)
-            setIsLoggedIn(true)
-            setUser(currentUser)
-
+            await signup(signupEmailRef.current.value, signupPasswordRef.current.value)
+            
+            navigate('/')
         }catch(err){
             console.log(err.code)
             if(err.code === 'auth/email-already-in-use')
@@ -37,16 +38,19 @@ const LogIn = ({setIsLoggedIn, setUser}) => {
     async function handlelogin(event){
         event.preventDefault()
         try{
-            await login(loginEmailRef.current.value, loginPasswordRef.current.value)
             setError("")
             setLoading(true)
-            setIsLoggedIn(true)
-            setUser(currentUser)
+            await login(loginEmailRef.current.value, loginPasswordRef.current.value)
+            
+            console.log(currentUser)
+            navigate('/')
 
         }catch(err){
-            console.error(err)
+            console.log(err.code)
             if(err.code === 'auth/email-already-in-use')
                 setError("email already in use")
+            if(err.code === 'auth/wrong-password')
+                setError("wrong password")
             else
                 setError(err)
         }
@@ -71,6 +75,9 @@ const LogIn = ({setIsLoggedIn, setUser}) => {
             </form>
             :
             <form className="login-input" onSubmit={handlelogin}>
+                {error && 
+                    <h1>{error}</h1>
+                }
                 <input required name='task' type='text' ref={loginEmailRef} placeholder="Email"/>
                 <input required name='task' type='text' ref={loginPasswordRef} placeholder="Password"/>
                 <button type="submit">Log in</button>
