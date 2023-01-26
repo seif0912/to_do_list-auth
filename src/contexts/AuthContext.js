@@ -1,6 +1,9 @@
 import React from 'react'
 import { useContext, useState, useEffect } from 'react'
-import { auth } from '../firebase'
+import { auth, db } from '../firebase'
+import { doc, setDoc } from "firebase/firestore";
+
+
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
 
@@ -16,7 +19,10 @@ export function AuthProvider({ children }) {
 
 
     function signup(email, password){
-        return createUserWithEmailAndPassword(auth, email, password)
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((user)=>{
+            setDoc(doc(db, "users", user.user.uid), {email: user.user.email});
+        }).catch(err=> console.error(err))
     }
 
     function login(email, password){
