@@ -3,50 +3,14 @@ import './todo.css'
 import { FaTrash } from 'react-icons/fa';
 import { AiOutlineCheckCircle, AiFillCheckCircle } from 'react-icons/ai';
 import { useAuth } from '../../contexts/AuthContext';
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import {  db } from '../../firebase'
 
 const Todo = (props) => {
     let {currentUser} = useAuth()
-    const getTaskIndex = (list, id) => {
-        // console.log(list)
-        for(let i=0; i<list.length; i++){
-            if (list[i].id === id){
-                // console.log(i)
-                return i
-            }
-        }
-    }
-    function removeLocalTask(id) {
-        let tasksL;
-        if (localStorage.getItem('tasksL') === null) {
-            tasksL = [];
-        } else {
-            tasksL = JSON.parse(localStorage.getItem('tasksL'));
-        }
-        let taskIndex = getTaskIndex(tasksL, id)
-        // console.log(taskIndex)
-        tasksL.splice(taskIndex, 1)
-        localStorage.setItem("tasksL", JSON.stringify(tasksL))
-    }
-    const checkHandler = () => {
-        const temp = [...props.list]
-        let taskIndex = getTaskIndex(temp, props.id)
-        temp[taskIndex].isDone = !temp[taskIndex].isDone
-        
-        let tasksL;
-        if (localStorage.getItem('tasksL') === null) {
-            tasksL = [];
-        } else {
-            tasksL = JSON.parse(localStorage.getItem('tasksL'));
-        }
-        let taskLocalIndex = getTaskIndex(tasksL, props.id)
-        // console.log(taskIndex)
-        tasksL[taskLocalIndex].isDone = !tasksL[taskLocalIndex].isDone
-        localStorage.setItem("tasksL", JSON.stringify(tasksL))
 
-        props.setList( temp );
-
+    const checkHandler = async() => {
+        await updateDoc(doc(db, "users", currentUser.uid, "todos",props.id), {isDone: !props.isDone})
     }
 
     const trashHandler = async() => {
