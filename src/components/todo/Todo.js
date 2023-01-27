@@ -5,10 +5,10 @@ import { AiOutlineCheckCircle, AiFillCheckCircle } from 'react-icons/ai';
 
 const Todo = (props) => {
     const getTaskIndex = (list, id) => {
-        console.log(list)
+        // console.log(list)
         for(let i=0; i<list.length; i++){
             if (list[i].id === id){
-                console.log(i)
+                // console.log(i)
                 return i
             }
         }
@@ -21,7 +21,7 @@ const Todo = (props) => {
             tasksL = JSON.parse(localStorage.getItem('tasksL'));
         }
         let taskIndex = getTaskIndex(tasksL, id)
-        console.log(taskIndex)
+        // console.log(taskIndex)
         tasksL.splice(taskIndex, 1)
         localStorage.setItem("tasksL", JSON.stringify(tasksL))
     }
@@ -37,7 +37,7 @@ const Todo = (props) => {
             tasksL = JSON.parse(localStorage.getItem('tasksL'));
         }
         let taskLocalIndex = getTaskIndex(tasksL, props.id)
-        console.log(taskIndex)
+        // console.log(taskIndex)
         tasksL[taskLocalIndex].isDone = !tasksL[taskLocalIndex].isDone
         localStorage.setItem("tasksL", JSON.stringify(tasksL))
 
