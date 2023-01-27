@@ -2,8 +2,12 @@ import React from 'react'
 import './todo.css'
 import { FaTrash } from 'react-icons/fa';
 import { AiOutlineCheckCircle, AiFillCheckCircle } from 'react-icons/ai';
+import { useAuth } from '../../contexts/AuthContext';
+import { deleteDoc, doc } from "firebase/firestore";
+import {  db } from '../../firebase'
 
 const Todo = (props) => {
+    let {currentUser} = useAuth()
     const getTaskIndex = (list, id) => {
         // console.log(list)
         for(let i=0; i<list.length; i++){
@@ -44,12 +48,10 @@ const Todo = (props) => {
         props.setList( temp );
 
     }
-    const trashHandler = () => {
-        const temp = [...props.list]
-        let taskIndex = getTaskIndex(temp, props.id)
-        temp.splice(taskIndex, 1)
-        props.setList( temp );
-        removeLocalTask(props.id)
+
+    const trashHandler = async() => {
+        console.log(props.id)
+        await deleteDoc(doc(db, "users", currentUser.uid, "todos",props.id));
     }
     return (
         <div className={`todo ${props.isDone ? 'done' : ''}`}>

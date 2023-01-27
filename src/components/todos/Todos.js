@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './todos.css'
 import {Todo} from '../Index'
 
 const Todos = ({list, setList}) => {
-  let tasks = list.map(task=> <Todo task={task.task} isDone={task.isDone} key={task.id} id={task.id} list={list} setList={setList}/>)
+    console.log('from Todos', list)
+    let tasksComponents = list.map(task => <Todo task={task._document.data.value.mapValue.fields.task.stringValue} isDone={task._document.data.value.mapValue.fields.isDone.booleanValue} key={task.id} id={task.id} list={list} setList={setList}/>)
   return (
     <div className='todos'>
-      {tasks}
+      {tasksComponents}
     </div>
   )
 }

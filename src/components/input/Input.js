@@ -23,7 +23,7 @@ const Input = ({list, setList}) => {
         const taskk = {task: e.target.task.value, isDone: false}
         const docRef = await addDoc(collection(db, 'users', currentUser.uid, 'todos'), taskk)
         console.log(docRef)
-        setList(prev => [...prev, task])
+        // setList(prev => [...prev, task])
         e.target.task.value = ''
     }
     return (
