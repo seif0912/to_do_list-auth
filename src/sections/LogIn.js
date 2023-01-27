@@ -25,8 +25,9 @@ const LogIn = () => {
             setError("")
             setLoading(true)
             await signup(signupEmailRef.current.value, signupPasswordRef.current.value)
-            
-            navigate('/')
+            if(currentUser){
+                navigate('/')
+            }
         }catch(err){
             console.log(err.code)
             if(err.code === 'auth/email-already-in-use')
@@ -43,7 +44,9 @@ const LogIn = () => {
             await login(loginEmailRef.current.value, loginPasswordRef.current.value)
             
             console.log(currentUser)
-            navigate('/')
+            if(currentUser){
+                navigate('/')
+            }
 
         }catch(err){
             console.log(err.code)
@@ -63,7 +66,7 @@ const LogIn = () => {
             {loginPage? 
             <form className="login-input" onSubmit={handleSignup}>
                 {error && 
-                    <h1>{error}</h1>
+                    <h1 style={{color: 'red'}}>{error}</h1>
                 }
                 <input required name='task' type='text' ref={signupEmailRef} placeholder="Email"/>
                 <input required name='task' type='text' ref={signupPasswordRef} placeholder="Password"/>
@@ -76,7 +79,7 @@ const LogIn = () => {
             :
             <form className="login-input" onSubmit={handlelogin}>
                 {error && 
-                    <h1>{error}</h1>
+                    <h1 style={{color: 'darkred'}}>{error}</h1>
                 }
                 <input required name='task' type='text' ref={loginEmailRef} placeholder="Email"/>
                 <input required name='task' type='text' ref={loginPasswordRef} placeholder="Password"/>

@@ -1,7 +1,12 @@
 import React from 'react'
 import './input.css'
+import {  db } from '../../firebase'
+import { addDoc, collection } from "firebase/firestore";
+import { useAuth } from '../../contexts/AuthContext'
 
 const Input = ({list, setList}) => {
+    const {currentUser} = useAuth()
+    
     const idGenerator = (list) =>{
         if (list.length === 0)
             return 0
@@ -11,10 +16,13 @@ const Input = ({list, setList}) => {
         return (max + 1)
     }
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
         let id = idGenerator(list);
         const task = {task: e.target.task.value, isDone: false, id}
+        const taskk = {task: e.target.task.value, isDone: false}
+        const docRef = await addDoc(collection(db, 'users', currentUser.uid, 'todos'), taskk)
+        console.log(docRef)
         setList(prev => [...prev, task])
         e.target.task.value = ''
     }

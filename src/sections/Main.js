@@ -25,7 +25,7 @@ const Main = () => {
         <div className="title">
           <h1>to do list - react & firebase</h1>
           <h3>stored in your account</h3>
-          <h3 className='user-email'>{currentUser && currentUser.email}</h3>
+          <h3 className='user-email'>{currentUser.email}</h3>
           <button onClick={handleLogout} className='signout'>sign out</button>
         </div>
         <Input list={list} setList={setList}/>
