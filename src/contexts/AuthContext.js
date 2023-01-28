@@ -1,10 +1,10 @@
 import React from 'react'
 import { useContext, useState, useEffect } from 'react'
-import { auth, db } from '../firebase'
+import { auth, db, provider } from '../firebase'
 import { doc, setDoc } from "firebase/firestore";
 
 
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signInWithPopup } from "firebase/auth";
 
 
 const AuthContext = React.createContext()
@@ -29,13 +29,19 @@ export function AuthProvider({ children }) {
         return signInWithEmailAndPassword(auth, email, password)
     }
 
+    function signInWithGoogle(){
+        signInWithPopup(auth, provider)
+        .then((user) => {
+            setDoc(doc(db, "users", user.user.uid), {email: user.user.email});
+        }).catch(err=> console.error(err))
+    }
+
     function logout(){
         return auth.signOut()
     }
 
     useEffect(()=>{
         const unsubcsribe = onAuthStateChanged( auth, (user) => {
-            console.log('user', user)
             setCurrentUser(user)
             setLoading(false)
         })
@@ -46,7 +52,8 @@ export function AuthProvider({ children }) {
         currentUser,
         signup,
         login,
-        logout
+        logout,
+        signInWithGoogle
     }
     return (
         <AuthContext.Provider value={value}>
