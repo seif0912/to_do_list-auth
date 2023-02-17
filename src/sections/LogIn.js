@@ -64,25 +64,25 @@ const LogIn = () => {
     <>
         <div className="login">
             {loginPage? 
-            <form className="login-input" >
+            <form className="login-input" name="signup-form" >
                 {error && 
                     <h1 style={{color: 'red'}}>{error}</h1>
                 }
-                <input required name='task' type='text' ref={signupEmailRef} placeholder="Email"/>
-                <input required name='task' type='text' ref={signupPasswordRef} placeholder="Password"/>
-                <input required name='task' type='text' ref={signupPasswordConfirmationRef} placeholder="Password Confirmation"/>
+                <input required name='signup-email' type='text' ref={signupEmailRef} placeholder="Email"/>
+                <input required name='signup-password' type='password' ref={signupPasswordRef} placeholder="Password"/>
+                <input required name='signup-password-confirmation' type='password' ref={signupPasswordConfirmationRef} placeholder="Password Confirmation"/>
                 <button disabled={loading} onClick={handleSignup} type="submit">Sign Up</button>
                 <h2>Or</h2>
                 <button type="button" onClick={signInWithGoogle}>Sign up with Google</button>
                 <h2>already have an account? <span onClick={() => setLoginPage(prev => !prev)}>Log In</span></h2>
             </form>
             :
-            <form className="login-input" onSubmit={handlelogin}>
+            <form className="login-input" name="login-form" onSubmit={handlelogin}>
                 {error && 
                     <h1 style={{color: 'darkred'}}>{error}</h1>
                 }
-                <input required name='task' type='text' ref={loginEmailRef} placeholder="Email"/>
-                <input required name='task' type='text' ref={loginPasswordRef} placeholder="Password"/>
+                <input required name='login-email' type='text' ref={loginEmailRef} placeholder="Email"/>
+                <input required name='login-password' type='password' ref={loginPasswordRef} placeholder="Password"/>
                 <button type="submit">Log in</button>
                 <h2>Or</h2>
                 <button type="button" onClick={signInWithGoogle}>Log in with Google</button>
