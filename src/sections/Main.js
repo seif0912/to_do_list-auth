@@ -30,7 +30,7 @@ const Main = () => {
       return docs
     }
     return fetchData()
-  },[])
+  },[currentUser.uid])
   
   return (
     <div className="App">

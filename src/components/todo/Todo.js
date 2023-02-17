@@ -14,7 +14,7 @@ const Todo = (props) => {
     }
 
     const trashHandler = async() => {
-        console.log(props.id)
+        // console.log(props.id)
         await deleteDoc(doc(db, "users", currentUser.uid, "todos",props.id));
     }
     return (
