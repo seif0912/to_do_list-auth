@@ -1,4 +1,4 @@
-## todolist-auth.netlify.app
+## https://todolist-auth.netlify.app
 
 #### I built this todo app using Reactjs and firebase
 i created a context for authentication: If a person is not logged in, the app will redirect to sign-up page. in another word, the Home page is a protected route
